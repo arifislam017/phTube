@@ -10,8 +10,8 @@ function getTime (time){
 
 // LoadCategories For Video Fetch 
 
-const videoCategories = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const videoCategories = (searchText = "") => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
         .then((res) => res.json())
         .then((data) => displayVideo(data.videos))
         .catch((err) => console.log(err));
@@ -32,7 +32,7 @@ const displayVideo = (video) => {
 
             ${
                 item.others.posted_date?.length == 0 ? "" : 
-               ` <span class = "absolute right-2 bottom-32 bg-black text-white rounded-lg p-2">
+               ` <span class = "text-sm absolute right-2 bottom-44 bg-black text-white rounded-lg p-2">
                     ${getTime(item.others.posted_date)}
                 </span>`
             }
@@ -58,8 +58,9 @@ const displayVideo = (video) => {
                         </div>
                 </div>
                 <div class="flex flex-col">
-                    <p class="flex flex-col">${item.others.views}</p>    
-                <div>                   
+                    <p class="flex flex-col">${item.others.views}</p>
+                    <button class="btn btn-soft btn-info mt-2">Details</button>    
+                <div>                
             </div>           
         </div>
         `
@@ -67,5 +68,8 @@ const displayVideo = (video) => {
     });
 }
 
+document.getElementById("inputId").addEventListener("keyup", (e)=>{ // It won't work here 
+   videoCategories(e.target.value);
+})
 videoCategories();
 
